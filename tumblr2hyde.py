@@ -5,7 +5,7 @@ Website: http://github.com/zacs/tumblr2hyde
 """
 
 API_KEY = "YOUR_API_KEY"
-TUMBLR_ROOT = "YOUR_TUMBLR_DOMAIN"
+TUMBLR_ROOT = "YOUR_ROOT_DOMAIN"
 TEXT_ONLY = True
 CUSTOM_FIELDS = {"extends": "blog.j2", "default_block": "post", "listable": "true"}
 
@@ -13,6 +13,7 @@ import urllib2
 import json
 import os
 import codecs
+import re
 
 def loadTumblr(knownPosts, tumblrUrl, apiKey, 
                perPage=20, offset=0, textOnly=True):
@@ -29,10 +30,10 @@ def loadTumblr(knownPosts, tumblrUrl, apiKey,
     else:
         if knownPosts==None:
             return loadTumblr(data["response"]["posts"],
-                              tumblrUrl, apiKey, perPage, offset+perPage, textOnly)
+                              tumblrUrl, apiKey, perPage, offset + perPage, textOnly)
         else:
-            return loadTumblr(knownPosts+data["response"]["posts"],
-                              tumblrUrl, apiKey, perPage, offset+perPage, textOnly)
+            return loadTumblr(knownPosts + data["response"]["posts"],
+                              tumblrUrl, apiKey, perPage, offset + perPage, textOnly)
     pass
 
 def initializeDirs():
@@ -59,18 +60,31 @@ def createSinglePost(tumblrData):
     for key, value in CUSTOM_FIELDS.iteritems():
         fileContents += "%s: %s\n" % (key, value)
     fileContents += "---\n\n"
-    fileContents += tumblrData["body"]
+    body = downloadImages(tumblrData["body"], "media/images/", tumblrData["slug"])
+    fileContents += body
     f.write(fileContents)
     f.close()
-    mediaLoc = "media/images/"
-    downloadImages(tumblrData["body"], mediaLoc, tumblrData["slug"])
     pass
 
 def downloadImages(body, directory, slug):
-    """docstring for downloadImages"""
+    """Downloads any images reference in a post, and returns rewritten body
+    text which references the downloaded images using a relative path
+    (your /media/images/ path with a subdirectory of the post's stub).
+    
+    """
     dir = directory + slug
-    #if not os.path.exists(dir):
-    #    os.makedirs(dir)
+    imgs = re.findall(r'<img [^>]*src="([^"]+)"', body, re.I)
+    if imgs:
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        for img in imgs:
+            filename = img.split('/')
+            filename = '%s%s/%s' % (directory, slug, filename[len(filename)-1])
+            # download img
+            body = body.replace(img, filename)
+        return body
+    else:
+        return body
     pass
 
 def main():
