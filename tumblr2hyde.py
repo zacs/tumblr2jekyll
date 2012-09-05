@@ -5,7 +5,7 @@ Website: http://github.com/zacs/tumblr2hyde
 """
 
 API_KEY = "YOUR_API_KEY"
-TUMBLR_ROOT = "YOUR_ROOT_DOMAIN"
+TUMBLR_ROOT = "YOUR_TUMBLR_DOMAIN"
 TEXT_ONLY = True
 CUSTOM_FIELDS = {"extends": "blog.j2", "default_block": "post", "listable": "true"}
 
@@ -36,7 +36,7 @@ def loadTumblr(knownPosts, tumblrUrl, apiKey,
     pass
 
 def initializeDirs():
-    """docstring for initializeDirs"""
+    """Create Hyde-style dirs if they don't already exist in CWD."""
     dirs = ["contents/blog/","media/images/"]
     for dir in dirs:
         if not os.path.exists(dir):

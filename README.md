@@ -10,7 +10,13 @@ Usage
 2. Paste the *OAuth Consumer Key* into the script as `API_KEY`.
 3. Enter your site's root Tumblr URL as `TUMBLR_ROOT`.
 4. [Optional] Change the `TEXT_ONLY` setting to False if you want more than just your text posts.
-5. [Optional] Add tuples to the dictionary for customer fields. [More info](#custom_fields).
+5. [Optional] Add/remove tuples from the `CUSTOM_FIELDS` dictionary. [More info](#custom_fields).
 6. In the terminal: `python tumblr2hyde.py` -- the directory structure for Hyde will be created wherever the script is run from.
+
+### <a id="custom_fields"/>Details on custom fields
+
+Many Hyde templates require some extra fields in order to render correctly. [Michael Grosner](http://www.michaelgrosner.com/blog/2011/8/5-installing-hyde.html) covers some of this in his excellent Hyde tutorial (see the _Including Content_ section of the link above for more details). I have that setting pre-populated with the values from Michael's post. They won't hurt anything if you don't need them, but feel free to delete as well. 
+
+* * *
 
 That should do it. No need really to set up a virtualenv, as there are no requirement modules outside of core Python libraries. 
