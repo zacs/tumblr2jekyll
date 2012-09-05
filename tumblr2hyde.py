@@ -38,7 +38,7 @@ def loadTumblr(knownPosts, tumblrUrl, apiKey,
 
 def initializeDirs():
     """Create Hyde-style dirs if they don't already exist in CWD."""
-    dirs = ["contents/blog/","media/images/"]
+    dirs = ["content/blog/","content/media/images/"]
     for dir in dirs:
         if not os.path.exists(dir):
             os.makedirs(dir)
@@ -46,7 +46,7 @@ def initializeDirs():
 
 def createSinglePost(tumblrData):
     """Creates a single post's file and saves any images."""
-    fileLoc = "contents/blog/%s.html" % tumblrData["slug"]
+    fileLoc = "content/blog/%s.html" % tumblrData["slug"]
     fileLoc = fileLoc.encode("ASCII")
     f = codecs.open(fileLoc, "w", "utf-8")
     fileContents = "---\n"
@@ -60,9 +60,18 @@ def createSinglePost(tumblrData):
     for key, value in CUSTOM_FIELDS.iteritems():
         fileContents += "%s: %s\n" % (key, value)
     fileContents += "---\n\n"
-    body = downloadImages(tumblrData["body"], "media/images/", tumblrData["slug"])
+    body = downloadImages(tumblrData["body"], "content/media/images/", tumblrData["slug"])
     fileContents += body
     f.write(fileContents)
+    f.close()
+    pass
+
+def downloadImage(url, path):
+    """Download a single image to a given path."""
+    f = urllib2.urlopen(url)
+    img = open(path, 'wb')
+    img.write(f.read())
+    img.close()
     f.close()
     pass
 
@@ -79,9 +88,10 @@ def downloadImages(body, directory, slug):
             os.makedirs(dir)
         for img in imgs:
             filename = img.split('/')
-            filename = '%s%s/%s' % (directory, slug, filename[len(filename)-1])
-            # download img
-            body = body.replace(img, filename)
+            templatesrc = '![]([[!!images/%s/%s]])' % (slug, filename[len(filename)-1])
+            filepath = '%s%s/%s' % (directory, slug, filename[len(filename)-1])
+            downloadImage(img, filepath)
+            body = body.replace(img, templatesrc)
         return body
     else:
         return body
