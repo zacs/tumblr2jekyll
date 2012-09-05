@@ -29,10 +29,10 @@ def loadTumblr(knownPosts, tumblrUrl, apiKey,
     else:
         if knownPosts==None:
             return loadTumblr(data["response"]["posts"],
-                              tumblrUrl, apiKey, perPage, offset+20, textOnly)
+                              tumblrUrl, apiKey, perPage, offset+perPage, textOnly)
         else:
             return loadTumblr(knownPosts+data["response"]["posts"],
-                              tumblrUrl, apiKey, perPage, offset+20, textOnly)
+                              tumblrUrl, apiKey, perPage, offset+perPage, textOnly)
     pass
 
 def initializeDirs():
