@@ -1,7 +1,7 @@
 tumblr2hyde
 ===========
 
-*Images within posts not working yet*. Script for pulling posts out of Tumblr and creating content for Hyde (or presumably Jekyll, but I'm not sure). 
+Script for pulling posts out of Tumblr and creating content for Jekyll or Hyde. 
 
 Usage
 -----
@@ -17,7 +17,7 @@ Assumptions
 -----------
 
 1. The Tumblr V2 API stil exists.
-2. You are using a traditional Hyde structure (eg. /blog/contents/ and /media/images/). If not, the script is easy enough to edit on your own.
+2. You are using a traditional Jekyll (or Hyde) structure (eg. /blog/contents/ and /media/images/). If not, the script is easy enough to edit on your own.
 3. You don't really care about the `description` field in the posts, since Tumblr doesn't have one (I just re-write the title there).
 
 ### <a id="custom_fields"/>Details on custom fields
