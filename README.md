@@ -1,7 +1,7 @@
-tumblr2hyde
-===========
+tumblr2jekyll
+=============
 
-Script for pulling posts out of Tumblr and creating content for Jekyll or Hyde. 
+Script for pulling posts out of Tumblr and creating content for Jekyll. 
 
 Usage
 -----
@@ -11,18 +11,18 @@ Usage
 3. Enter your site's root Tumblr URL as `TUMBLR_ROOT`.
 4. [Optional] Change the `TEXT_ONLY` setting to False if you want more than just your text posts.
 5. [Optional] Add/remove tuples from the `CUSTOM_FIELDS` dictionary. [More info](#custom_fields).
-6. In the terminal: `python tumblr2hyde.py` -- the directory structure for Hyde will be created wherever the script is run from.
+6. In the terminal: `python tumblr2jekyll.py` -- the directory structure for Jekyll will be created wherever the script is run from.
 
 Assumptions
 -----------
 
 1. The Tumblr V2 API stil exists.
-2. You are using a traditional Jekyll (or Hyde) structure (eg. /blog/contents/ and /media/images/). If not, the script is easy enough to edit on your own.
+2. You are using a traditional Jekyll structure (eg. `_posts/` and `images/`). If not, the script is easy enough to edit on your own.
 3. You don't really care about the `description` field in the posts, since Tumblr doesn't have one (I just re-write the title there).
 
 ### <a id="custom_fields"/>Details on custom fields
 
-Many Hyde templates require some extra fields in order to render correctly. [Michael Grosner](http://www.michaelgrosner.com/blog/2011/8/5-installing-hyde.html) covers some of this in his excellent Hyde tutorial (see the _Including Content_ section of the link above for more details). I have that setting pre-populated with the values from Michael's post. They won't hurt anything if you don't need them, but feel free to delete as well. 
+You can add any custom fields using the `CUSTOM_FIELDS` dictionaty at the beginning of the script. I have that setting pre-populated with the standard `layout: post` as a default. You should always at least specify a `layout` here, and can add whatever other pairs you need or want. 
 
 ------
 
