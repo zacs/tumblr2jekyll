@@ -1,13 +1,13 @@
 """
-tumblr2hyde.py: A script to migrate a tumblr blog into Hyde content.
-Author: Zac Schellhardt (zac@z4c.us)
-Website: http://github.com/zacs/tumblr2hyde
+tumblr2hyde.py: A script to migrate a tumblr blog into Jekyll content.
+Author: Zac Schellhardt (zac@z12t.com)
+Website: http://github.com/zacs/tumblr2jekyll
 """
 
 API_KEY = "YOUR_API_KEY"
 TUMBLR_ROOT = "YOUR_ROOT_DOMAIN"
 TEXT_ONLY = True
-CUSTOM_FIELDS = {"extends": "blog.j2", "default_block": "post", "listable": "true"}
+CUSTOM_FIELDS = {"layout": "post"}
 
 import urllib2
 import json
@@ -38,7 +38,7 @@ def loadTumblr(knownPosts, tumblrUrl, apiKey,
 
 def initializeDirs():
     """Create Hyde-style dirs if they don't already exist in CWD."""
-    dirs = ["content/blog/","content/media/images/"]
+    dirs = ["_posts/","/images/"]
     for dir in dirs:
         if not os.path.exists(dir):
             os.makedirs(dir)
@@ -46,7 +46,7 @@ def initializeDirs():
 
 def createSinglePost(tumblrData):
     """Creates a single post's file and saves any images."""
-    fileLoc = "content/blog/%s.html" % tumblrData["slug"]
+    fileLoc = "_posts/%s.html" % tumblrData["slug"]
     fileLoc = fileLoc.encode("ASCII")
     f = codecs.open(fileLoc, "w", "utf-8")
     fileContents = "---\n"
@@ -60,7 +60,7 @@ def createSinglePost(tumblrData):
     for key, value in CUSTOM_FIELDS.iteritems():
         fileContents += "%s: %s\n" % (key, value)
     fileContents += "---\n\n"
-    body = downloadImages(tumblrData["body"], "content/media/images/", tumblrData["slug"])
+    body = downloadImages(tumblrData["body"], "images/", tumblrData["slug"])
     fileContents += body
     f.write(fileContents)
     f.close()
@@ -78,7 +78,7 @@ def downloadImage(url, path):
 def downloadImages(body, directory, slug):
     """Downloads any images reference in a post, and returns rewritten body
     text which references the downloaded images using a relative path
-    (your /media/images/ path with a subdirectory of the post's stub).
+    (your /images/ path with a subdirectory of the post's stub).
     
     """
     dir = directory + slug
