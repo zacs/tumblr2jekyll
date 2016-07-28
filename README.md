@@ -16,9 +16,10 @@ Usage
 Assumptions
 -----------
 
-1. The Tumblr V2 API stil exists.
-2. You are using a traditional Jekyll structure (eg. `_posts/` and `images/`). If not, the script is easy enough to edit on your own.
-3. You don't really care about the `description` field in the posts, since Tumblr doesn't have one (I just re-write the title there).
+1. You have Python installed
+2. The Tumblr V2 API stil exists.
+3. You are using a traditional Jekyll structure (eg. `_posts/` and `images/`). If not, the script is easy enough to edit on your own.
+4. You don't really care about the `description` field in the posts, since Tumblr doesn't have one (I just re-write the title there).
 
 ### <a id="custom_fields"/>Details on custom fields
 
